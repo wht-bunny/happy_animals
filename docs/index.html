@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VLESS Key Checker</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f0f13;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #888;
+      font-size: 0.85rem;
+      margin-bottom: 28px;
+    }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .tab {
+      padding: 8px 20px;
+      border-radius: 20px;
+      border: 1px solid #333;
+      background: #1a1a22;
+      color: #aaa;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .tab:hover { border-color: #555; color: #ddd; }
+    .tab.active { background: #4f46e5; border-color: #4f46e5; color: #fff; }
+    .card {
+      max-width: 640px;
+      margin: 0 auto 20px;
+      background: #1a1a22;
+      border-radius: 14px;
+      padding: 22px;
+      border: 1px solid #2a2a35;
+    }
+    .card h2 { font-size: 1rem; color: #aaa; margin-bottom: 16px; }
+    .key-box {
+      background: #0f0f13;
+      border: 1px solid #2a2a35;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: monospace;
+      font-size: 0.78rem;
+      word-break: break-all;
+      color: #7dd3fc;
+      line-height: 1.5;
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+    }
+    .key-box.empty { color: #555; font-family: sans-serif; font-size: 0.85rem; }
+    .copy-btn {
+      margin-top: 12px;
+      width: 100%;
+      padding: 10px;
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .copy-btn:hover { background: #4338ca; }
+    .copy-btn:disabled { background: #2a2a35; color: #555; cursor: default; }
+    .top5 { margin-top: 16px; }
+    .top5 h3 { font-size: 0.8rem; color: #666; margin-bottom: 8px; }
+    .top5-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 10px;
+      background: #0f0f13;
+      border-radius: 7px;
+      margin-bottom: 5px;
+      font-size: 0.8rem;
+    }
+    .top5-item .host { color: #94a3b8; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .top5-item .latency { color: #4ade80; margin-left: 10px; flex-shrink: 0; }
+    .top5-item .copy-small {
+      margin-left: 8px;
+      background: none;
+      border: 1px solid #333;
+      color: #888;
+      border-radius: 5px;
+      padding: 2px 8px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+    .top5-item .copy-small:hover { border-color: #555; color: #ccc; }
+    .stats { text-align: center; color: #555; font-size: 0.8rem; margin-top: 10px; }
+    .updated {
+      text-align: center;
+      color: #444;
+      font-size: 0.75rem;
+      margin-top: 8px;
+    }
+    .refresh-btn {
+      display: block;
+      margin: 0 auto 20px;
+      padding: 9px 24px;
+      background: #1a1a22;
+      border: 1px solid #333;
+      color: #aaa;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .refresh-btn:hover { border-color: #555; color: #ddd; }
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid #333;
+      border-top-color: #4f46e5;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<h1>VLESS Key Checker</h1>
+<p class="subtitle" id="updated">Загружаем данные...</p>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchMode('black')">Обычный VPN</button>
+  <button class="tab" onclick="switchMode('white')">Белые списки</button>
+  <button class="tab" onclick="switchMode('russia')">Россия (Москва)</button>
+</div>
+
+<button class="refresh-btn" onclick="loadData()">Обновить</button>
+
+<div class="card" id="card-black">
+  <h2>Лучший ключ — Обычный VPN</h2>
+  <div class="key-box empty" id="key-black">Загрузка...</div>
+  <button class="copy-btn" id="btn-black" disabled onclick="copyKey('black')">Копировать</button>
+  <div class="top5" id="top5-black"></div>
+  <div class="stats" id="stats-black"></div>
+</div>
+
+<div class="card" id="card-white" style="display:none">
+  <h2>Лучший ключ — Белые списки</h2>
+  <div class="key-box empty" id="key-white">Загрузка...</div>
+  <button class="copy-btn" id="btn-white" disabled onclick="copyKey('white')">Копировать</button>
+  <div class="top5" id="top5-white"></div>
+  <div class="stats" id="stats-white"></div>
+</div>
+
+<div class="card" id="card-russia" style="display:none">
+  <h2>Лучший ключ — Россия (Москва)</h2>
+  <div class="key-box empty" id="key-russia">Загрузка...</div>
+  <button class="copy-btn" id="btn-russia" disabled onclick="copyKey('russia')">Копировать</button>
+  <div class="top5" id="top5-russia"></div>
+  <div class="stats" id="stats-russia"></div>
+</div>
+
+<script>
+  const KEYS_URL = 'keys.json';
+  let data = null;
+  let currentMode = 'black';
+
+  function switchMode(mode) {
+    currentMode = mode;
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', ['black','white','russia'][i] === mode);
+    });
+    ['black','white','russia'].forEach(m => {
+      document.getElementById('card-' + m).style.display = m === mode ? 'block' : 'none';
+    });
+  }
+
+  async function loadData() {
+    document.getElementById('updated').innerHTML = '<span class="spinner"></span>Загружаем...';
+    try {
+      const resp = await fetch(KEYS_URL + '?t=' + Date.now());
+      if (!resp.ok) throw new Error('Ошибка загрузки');
+      data = await resp.json();
+      renderAll();
+    } catch(e) {
+      document.getElementById('updated').textContent = 'Ошибка загрузки данных';
+    }
+  }
+
+  function renderAll() {
+    document.getElementById('updated').textContent = 'Обновлено: ' + (data.updated_at || '—');
+    ['black','white','russia'].forEach(mode => render(mode));
+  }
+
+  function render(mode) {
+    const d = data[mode];
+    const keyEl = document.getElementById('key-' + mode);
+    const btnEl = document.getElementById('btn-' + mode);
+    const top5El = document.getElementById('top5-' + mode);
+    const statsEl = document.getElementById('stats-' + mode);
+
+    if (d.best) {
+      keyEl.textContent = d.best;
+      keyEl.classList.remove('empty');
+      btnEl.disabled = false;
+    } else {
+      keyEl.textContent = 'Рабочих ключей не найдено. Проверьте позже.';
+      keyEl.classList.add('empty');
+      btnEl.disabled = true;
+    }
+
+    statsEl.textContent = 'Рабочих: ' + d.total_working + ' из ' + d.total;
+
+    if (d.top5 && d.top5.length > 1) {
+      top5El.innerHTML = '<h3>ТОП-5 быстрых:</h3>' +
+        d.top5.map((k, i) =>
+          '<div class="top5-item">' +
+          '<span class="host">' + (i+1) + '. ' + k.host + ':' + k.port + '</span>' +
+          '<span class="latency">' + k.latency_ms + ' мс</span>' +
+          '<button class="copy-small" onclick="copyText(\'' + encodeKey(k.key) + '\', this)">копировать</button>' +
+          '</div>'
+        ).join('');
+    } else {
+      top5El.innerHTML = '';
+    }
+  }
+
+  function encodeKey(key) {
+    return key.replace(/'/g, "\\'");
+  }
+
+  function copyKey(mode) {
+    const key = document.getElementById('key-' + mode).textContent;
+    copyText(key, document.getElementById('btn-' + mode));
+  }
+
+  function copyText(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = 'Скопировано!';
+      setTimeout(() => btn.textContent = orig, 1500);
+    });
+  }
+
+  loadData();
+</script>
+</body>
+</html>

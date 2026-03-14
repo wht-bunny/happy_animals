@@ -43,10 +43,16 @@
       box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     }
 
-    button#startBtn {
+    .mode-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .mode-btn {
       width: 100%;
       padding: 14px;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
       color: white;
       font-size: 1rem;
       font-weight: 600;
@@ -54,9 +60,24 @@
       border-radius: 10px;
       cursor: pointer;
       transition: opacity 0.2s;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    button#startBtn:hover { opacity: 0.9; }
-    button#startBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .mode-btn:hover { opacity: 0.88; }
+    .mode-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .mode-btn.black { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+    .mode-btn.white { background: linear-gradient(135deg, #0ea5e9, #06b6d4); }
+    .mode-btn.russia { background: linear-gradient(135deg, #ef4444, #f97316); }
+
+    .mode-btn .btn-desc {
+      font-size: 0.75rem;
+      font-weight: 400;
+      opacity: 0.8;
+      margin-left: auto;
+    }
 
     #status {
       margin-top: 20px;
@@ -131,9 +152,7 @@
     }
     .copy-btn:hover { background: #3d3d5c; }
 
-    .top5 {
-      margin-top: 20px;
-    }
+    .top5 { margin-top: 20px; }
     .top5-item {
       display: flex;
       justify-content: space-between;
@@ -159,7 +178,21 @@
   <p class="subtitle">Автоматически находит лучший рабочий ключ</p>
 
   <div class="card">
-    <button id="startBtn" onclick="startCheck()">🔍 Найти лучший ключ</button>
+    <div class="mode-buttons">
+      <button class="mode-btn black" onclick="startCheck('black')">
+        🔒 Обычный VPN
+        <span class="btn-desc">BLACK list</span>
+      </button>
+      <button class="mode-btn white" onclick="startCheck('white')">
+        🌐 Белые списки
+        <span class="btn-desc">без Russia</span>
+      </button>
+      <button class="mode-btn russia" onclick="startCheck('russia')">
+        🇷🇺 Белые списки — Москва
+        <span class="btn-desc">только Russia</span>
+      </button>
+    </div>
+
     <div id="status"></div>
     <div id="progress-bar-wrap"><div id="progress-bar"></div></div>
     <div id="log"></div>
@@ -180,12 +213,12 @@
 
   <script>
     let total = 0, done = 0;
+    let activeEs = null;
 
-    function startCheck() {
-      const btn = document.getElementById('startBtn');
-      btn.disabled = true;
-      btn.textContent = '⏳ Проверяем...';
+    function startCheck(mode) {
+      if (activeEs) { activeEs.close(); activeEs = null; }
 
+      document.querySelectorAll('.mode-btn').forEach(b => b.disabled = true);
       document.getElementById('result').style.display = 'none';
       document.getElementById('log').style.display = 'block';
       document.getElementById('log').innerHTML = '';
@@ -194,7 +227,8 @@
       document.getElementById('status').textContent = '';
       total = 0; done = 0;
 
-      const es = new EventSource('/check');
+      const es = new EventSource('/check?mode=' + mode);
+      activeEs = es;
 
       es.onmessage = (e) => {
         const data = JSON.parse(e.data);
@@ -202,7 +236,7 @@
 
         if (data.type === 'status') {
           document.getElementById('status').textContent = data.msg;
-          if (data.msg.includes('Найдено')) {
+          if (data.msg.includes('ключей')) {
             const match = data.msg.match(/\d+/);
             if (match) total = parseInt(match[0]);
           }
@@ -219,7 +253,7 @@
           if (total) document.getElementById('progress-bar').style.width = (done / total * 100) + '%';
         } else if (data.type === 'error') {
           document.getElementById('status').textContent = '❌ Ошибка: ' + data.msg;
-          resetBtn();
+          resetBtns();
           es.close();
         } else if (data.type === 'done') {
           document.getElementById('progress-bar').style.width = '100%';
@@ -227,31 +261,32 @@
             document.getElementById('bestKey').textContent = data.best;
             const top5 = document.getElementById('top5list');
             top5.innerHTML = data.top5.map((r, i) =>
-              `<div class="top5-item"><span>${i+1}. ${r.host}:${r.port}</span><span class="latency">${r.latency_ms} мс</span></div>`
+              '<div class="top5-item"><span>' + (i+1) + '. ' + r.host + ':' + r.port + '</span><span class="latency">' + r.latency_ms + ' мс</span></div>'
             ).join('');
             document.getElementById('statsLine').innerHTML =
-              `Рабочих: <span>${data.total_working}</span> из <span>${data.total}</span>`;
+              'Рабочих: <span>' + data.total_working + '</span> из <span>' + data.total + '</span>';
             document.getElementById('result').style.display = 'block';
             document.getElementById('status').textContent = '✅ Готово!';
           } else {
-            document.getElementById('status').textContent = '😕 Рабочих ключей не найдено. Попробуй позже.';
+            document.getElementById('status').textContent = data.total === 0
+              ? '😕 Ключей с таким фильтром не найдено в файле.'
+              : '😕 Рабочих ключей не найдено. Попробуй позже.';
           }
-          resetBtn();
+          resetBtns();
           es.close();
         }
       };
 
       es.onerror = () => {
         document.getElementById('status').textContent = '❌ Ошибка соединения';
-        resetBtn();
+        resetBtns();
         es.close();
       };
     }
 
-    function resetBtn() {
-      const btn = document.getElementById('startBtn');
-      btn.disabled = false;
-      btn.textContent = '🔄 Проверить снова';
+    function resetBtns() {
+      document.querySelectorAll('.mode-btn').forEach(b => b.disabled = false);
+      activeEs = null;
     }
 
     function copyKey() {

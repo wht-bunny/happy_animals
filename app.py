@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request
 import requests
 import socket
 import time
@@ -7,17 +7,26 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 app = Flask(__name__)
 
-GITHUB_RAW_URL = "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/BLACK_VLESS_RUS.txt"
+BLACK_URL = "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/BLACK_VLESS_RUS.txt"
+WHITE_URL = "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/WHITE-CIDR-RU-checked.txt"
+
 MAX_WORKERS = 15
 TEST_TIMEOUT = 5
 MAX_LATENCY_MS = 2000
 
 
-def fetch_keys(url):
+def fetch_keys(url, mode="black"):
     resp = requests.get(url, timeout=15)
     resp.raise_for_status()
     lines = resp.text.strip().splitlines()
-    return [line.strip() for line in lines if line.strip().startswith("vless://")]
+    keys = [line.strip() for line in lines if line.strip().startswith("vless://")]
+
+    if mode == "white":
+        keys = [k for k in keys if "russia" not in k.lower()]
+    elif mode == "russia":
+        keys = [k for k in keys if "russia" in k.lower()]
+
+    return keys
 
 
 def parse_host_port(key):
@@ -52,17 +61,28 @@ def test_key(key):
     return None
 
 
-def stream_check():
-    yield f"data: {json.dumps({'type': 'status', 'msg': 'Загружаем ключи с GitHub...'})}\n\n"
+def stream_check(mode):
+    labels = {
+        "black": "обычного VPN (BLACK)",
+        "white": "белых списков (без Russia)",
+        "russia": "Москвы/Russia (белые списки)",
+    }
+    label = labels.get(mode, mode)
+    yield "data: " + json.dumps({"type": "status", "msg": "Загружаем ключи с GitHub..."}) + "\n\n"
 
+    url = BLACK_URL if mode == "black" else WHITE_URL
     try:
-        keys = fetch_keys(GITHUB_RAW_URL)
+        keys = fetch_keys(url, mode)
     except Exception as e:
-        yield f"data: {json.dumps({'type': 'error', 'msg': str(e)})}\n\n"
+        yield "data: " + json.dumps({"type": "error", "msg": str(e)}) + "\n\n"
         return
 
     total = len(keys)
-    yield f"data: {json.dumps({'type': 'status', 'msg': f'Найдено {total} ключей. Проверяем...'})}\n\n"
+    if total == 0:
+        yield "data: " + json.dumps({"type": "done", "best": None, "top5": [], "total_working": 0, "total": 0}) + "\n\n"
+        return
+
+    yield "data: " + json.dumps({"type": "status", "msg": "Найдено " + str(total) + " ключей для " + label + ". Проверяем..."}) + "\n\n"
 
     working = []
     done = 0
@@ -74,20 +94,20 @@ def stream_check():
             result = future.result()
             if result:
                 working.append(result)
-                msg = f'[{done}/{total}] ✅ {result["host"]}:{result["port"]} — {result["latency_ms"]} мс'
-                yield "data: " + json.dumps({'type': 'found', 'msg': msg}) + "\n\n"
+                msg = "[" + str(done) + "/" + str(total) + "] \u2705 " + result["host"] + ":" + str(result["port"]) + " \u2014 " + str(result["latency_ms"]) + " \u043c\u0441"
+                yield "data: " + json.dumps({"type": "found", "msg": msg}) + "\n\n"
             else:
-                msg = f'[{done}/{total}] ❌'
-                yield "data: " + json.dumps({'type': 'progress', 'msg': msg}) + "\n\n"
+                msg = "[" + str(done) + "/" + str(total) + "] \u274c"
+                yield "data: " + json.dumps({"type": "progress", "msg": msg}) + "\n\n"
 
     working.sort(key=lambda x: x["latency_ms"])
 
     if working:
         best = working[0]
         top5 = working[:5]
-        yield f"data: {json.dumps({'type': 'done', 'best': best['key'], 'top5': top5, 'total_working': len(working), 'total': total})}\n\n"
+        yield "data: " + json.dumps({"type": "done", "best": best["key"], "top5": top5, "total_working": len(working), "total": total}) + "\n\n"
     else:
-        yield f"data: {json.dumps({'type': 'done', 'best': None, 'top5': [], 'total_working': 0, 'total': total})}\n\n"
+        yield "data: " + json.dumps({"type": "done", "best": None, "top5": [], "total_working": 0, "total": total}) + "\n\n"
 
 
 @app.route("/")
@@ -97,7 +117,8 @@ def index():
 
 @app.route("/check")
 def check():
-    return Response(stream_check(), mimetype="text/event-stream")
+    mode = request.args.get("mode", "black")
+    return Response(stream_check(mode), mimetype="text/event-stream")
 
 
 if __name__ == "__main__":

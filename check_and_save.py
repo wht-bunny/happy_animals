@@ -15,11 +15,12 @@ TEST_TIMEOUT = 5
 MAX_LATENCY_MS = 2000
 
 COUNTRIES = {
-    "estonia":     ["estonia"],
+    "baltics":     ["lithuania", "estonia", "latvia"],
     "finland":     ["finland"],
     "germany":     ["germany"],
     "sweden":      ["sweden"],
     "netherlands": ["netherlands"],
+    "poland":      ["poland"],
 }
 
 

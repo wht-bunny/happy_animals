@@ -178,6 +178,18 @@
       margin-right: 6px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .badge-new {
+      display: inline-block;
+      background: #ca8a04;
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+      vertical-align: middle;
+      margin-left: 4px;
+      letter-spacing: 0.03em;
+    }
   </style>
 </head>
 <body>
@@ -195,7 +207,7 @@
 <div class="guide">
   <h3>Как пользоваться</h3>
   <ol>
-    <li>Выбери страну для <span>обычного VPN</span> — рекомендуются Эстония, Финляндия, Германия, Швеция, Нидерланды</li>
+    <li>Выбери страну для <span>обычного VPN</span> — рекомендуются Прибалтика, Финляндия, Германия, Швеция, Нидерланды, Польша</li>
     <li>Или выбери режим <span>Белые списки</span> / <span>Россия (Москва)</span> для туннелирования только заблокированных сайтов</li>
     <li>Нажми <span>Копировать</span> и вставь ключ в приложение (Hiddify, v2rayTUN, Streisand)</li>
     <li>Ключи обновляются автоматически <span>каждые 30 минут</span></li>
@@ -204,11 +216,12 @@
 
 <p class="section-label">Обычный VPN — выбери страну</p>
 <div class="tabs" id="tabs-countries">
-  <button class="tab active" onclick="switchMode('estonia')">🇪🇪 Эстония</button>
+  <button class="tab active" onclick="switchMode('baltics')">🇱🇹🇪🇪🇱🇻 Прибалтика</button>
   <button class="tab" onclick="switchMode('finland')">🇫🇮 Финляндия</button>
   <button class="tab" onclick="switchMode('germany')">🇩🇪 Германия</button>
   <button class="tab" onclick="switchMode('sweden')">🇸🇪 Швеция</button>
   <button class="tab" onclick="switchMode('netherlands')">🇳🇱 Нидерланды</button>
+  <button class="tab" onclick="switchMode('poland')">🇵🇱 Польша <span class="badge-new">NEW</span></button>
 </div>
 
 <hr class="tabs-divider" />
@@ -228,16 +241,17 @@
   let data = null;
 
   const MODES = [
-    { key: 'estonia',     label: '🇪🇪 Эстония' },
+    { key: 'baltics',     label: '🇱🇹🇪🇪🇱🇻 Прибалтика' },
     { key: 'finland',     label: '🇫🇮 Финляндия' },
     { key: 'germany',     label: '🇩🇪 Германия' },
     { key: 'sweden',      label: '🇸🇪 Швеция' },
     { key: 'netherlands', label: '🇳🇱 Нидерланды' },
+    { key: 'poland',      label: '🇵🇱 Польша' },
     { key: 'white',       label: '🌐 Белые списки' },
     { key: 'russia',      label: '🇷🇺 Россия (Москва)' },
   ];
 
-  let currentMode = 'estonia';
+  let currentMode = 'baltics';
 
   function buildCards() {
     const container = document.getElementById('cards');

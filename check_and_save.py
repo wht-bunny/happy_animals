@@ -70,18 +70,25 @@ def test_key(key):
     host, port = parse_host_port(key)
     if not host:
         return None
-    start = time.time()
     try:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.settimeout(TEST_TIMEOUT)
-        result = sock.connect_ex((host, port))
-        sock.close()
-        elapsed = round((time.time() - start) * 1000, 1)
-        if result == 0 and elapsed <= MAX_LATENCY_MS:
-            return {"key": key, "host": host, "port": port, "latency_ms": elapsed}
+        infos = socket.getaddrinfo(host, port, socket.AF_UNSPEC, socket.SOCK_STREAM)
     except Exception:
-        pass
-    return None
+        return None
+    best = None
+    for (family, socktype, proto, canonname, sockaddr) in infos:
+        start = time.time()
+        try:
+            sock = socket.socket(family, socktype)
+            sock.settimeout(TEST_TIMEOUT)
+            result = sock.connect_ex(sockaddr)
+            sock.close()
+            elapsed = round((time.time() - start) * 1000, 1)
+            if result == 0 and elapsed <= MAX_LATENCY_MS:
+                if best is None or elapsed < best["latency_ms"]:
+                    best = {"key": key, "host": host, "port": port, "latency_ms": elapsed}
+        except Exception:
+            pass
+    return best
 
 
 def check_mode(keys, old_first_seen=None):
@@ -103,7 +110,7 @@ def check_mode(keys, old_first_seen=None):
 
     return {
         "best": working[0]["key"] if working else None,
-        "top5": working[:5],
+        "top10": working[:10],
         "total_working": len(working),
         "total": len(keys),
     }
@@ -115,8 +122,9 @@ def load_old_first_seen():
             old = json.load(f)
         seen = {}
         for mode_data in old.values():
-            if isinstance(mode_data, dict) and "top5" in mode_data:
-                for entry in mode_data["top5"]:
+            top_key = "top10" if "top10" in mode_data else "top5"
+            if isinstance(mode_data, dict) and top_key in mode_data:
+                for entry in mode_data[top_key]:
                     if "key" in entry and "first_seen" in entry:
                         seen[entry["key"]] = entry["first_seen"]
         return seen
@@ -145,7 +153,7 @@ def main():
         "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
     }
 
-    for country in COUNTRIES:
+    for country in list(COUNTRIES.keys()) + ["other"]:
         filtered = filter_keys(black_keys, country)
         print(f"[{country}] {len(filtered)} ключей, проверяем...")
         results[country] = check_mode(filtered, old_first_seen)

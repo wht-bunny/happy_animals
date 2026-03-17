@@ -19,7 +19,7 @@ const MODES = [
   { key: 'russia',        label: '🇷🇺 Россия (Москва)',    section: 'white' },
 ];
 
-let currentMode = 'baltics';
+let currentMode = null;
 
 function buildCards() {
   const container = document.getElementById('cards');
@@ -32,7 +32,6 @@ function buildCards() {
     '<div class="stats" id="stats-' + m.key + '"></div>' +
     '</div>'
   ).join('');
-  document.getElementById('card-' + currentMode).style.display = 'block';
 }
 
 function switchMode(mode) {
@@ -144,9 +143,10 @@ function render(mode) {
 
   statsEl.textContent = 'Рабочих: ' + d.total_working + ' из ' + d.total;
 
-  if (d.top5 && d.top5.length >= 1) {
-    top5El.innerHTML = '<h3>ТОП-5 быстрых:</h3>' +
-      d.top5.map((k, i) =>
+  const topList = d.top10 || d.top5;
+  if (topList && topList.length >= 1) {
+    top5El.innerHTML = '<h3>ТОП-10 быстрых:</h3>' +
+      topList.map((k, i) =>
         '<div class="top5-item">' +
         '<span class="host">' + (i + 1) + '. ' + k.host + ':' + k.port + '</span>' +
         '<span class="latency">' + k.latency_ms + ' мс</span>' +

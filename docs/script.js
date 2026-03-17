@@ -76,8 +76,10 @@ function renderAll() {
   const emptyVpn = [];
   const emptyWhite = [];
   MODES.forEach(m => {
-    if (data[m.key]) render(m.key);
-    const hasKeys = data[m.key] && data[m.key].total_working > 0;
+    if (m.key === 'other' ? data.other_countries : data[m.key]) render(m.key);
+    const hasKeys = m.key === 'other'
+      ? data.other_countries && Object.values(data.other_countries).some(c => c.total_working > 0)
+      : data[m.key] && data[m.key].total_working > 0;
     const tabBtn = document.querySelector(
       '#tabs-countries [onclick="switchMode(\'' + m.key + '\')"], ' +
       '#tabs-white [onclick="switchMode(\'' + m.key + '\')"]'
@@ -147,8 +149,6 @@ function renderCountryBlock(name, d) {
 }
 
 function render(mode) {
-  const d = data[mode];
-  if (!d) return;
   const keyEl = document.getElementById('key-' + mode);
   const btnEl = document.getElementById('btn-' + mode);
   const top5El = document.getElementById('top5-' + mode);
@@ -166,6 +166,9 @@ function render(mode) {
       : '<p>Нет рабочих ключей</p>';
     return;
   }
+
+  const d = data[mode];
+  if (!d) return;
 
   if (d.best) {
     keyEl.textContent = d.best;

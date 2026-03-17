@@ -40,10 +40,15 @@ def filter_keys(keys, mode):
         return [k for k in keys if any(kw in k.lower() for kw in keywords)]
     if mode == "other":
         return [k for k in keys if not any(kw in k.lower() for kw in COUNTRIES_ALL_KEYWORDS) and "russia" not in k.lower()]
-    if mode == "white":
-        return [k for k in keys if "russia" not in k.lower()]
     if mode == "russia":
         return [k for k in keys if "russia" in k.lower()]
+    if mode.startswith("w_"):
+        country = mode[2:]
+        if country in COUNTRIES:
+            keywords = COUNTRIES[country]
+            return [k for k in keys if any(kw in k.lower() for kw in keywords)]
+        if country == "other":
+            return [k for k in keys if not any(kw in k.lower() for kw in COUNTRIES_ALL_KEYWORDS) and "russia" not in k.lower()]
     return keys
 
 
@@ -146,7 +151,7 @@ def main():
         results[country] = check_mode(filtered, old_first_seen)
         print(f"[{country}] Рабочих: {results[country]['total_working']}/{results[country]['total']}")
 
-    for mode in ("other", "white", "russia"):
+    for mode in ("w_baltics", "w_finland", "w_germany", "w_sweden", "w_netherlands", "w_poland", "w_other", "russia"):
         filtered = filter_keys(white_keys, mode)
         print(f"[{mode}] {len(filtered)} ключей, проверяем...")
         results[mode] = check_mode(filtered, old_first_seen)

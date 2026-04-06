@@ -1,63 +1,139 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bunny Check</title>
+  <title>VLESS Key Checker — бесплатные рабочие VLESS-ключи</title>
 
-  <!-- SEO -->
-  <meta name="description"
-    content="Автоматическое обновление" />
-  <meta name="keywords"
-    content="Bunny check" />
-  <meta name="author" content="rabbit" />
-  <meta name="robots" content="index, follow" />
+  <meta name="description" content="Автоматически обновляемые бесплатные VLESS-ключи для обхода блокировок" />
 
-  <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔑</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔑</text></svg>" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
 
-  <h1>Bunny Check</h1>
+  <h1>VLESS Key Checker</h1>
   <p class="subtitle" id="updated">Загружаем данные...</p>
 
   <div class="guide">
     <h3>Как пользоваться</h3>
     <ol>
       <li>Выбери страну в разделе <strong>Белые списки</strong></li>
-      <li>Нажми <strong>Копировать</strong> и вставь ключ в приложение (Hiddify, v2rayTUN, Streisand)</li>
-      <li>Ключи обновляются автоматически <strong>каждые 30 минут</strong></li>
+      <li>Нажми <strong>Копировать</strong> и вставь ключ в Hiddify, v2rayTUN или Streisand</li>
+      <li>Ключи проверяются и обновляются каждые 30 минут</li>
     </ol>
   </div>
 
   <p class="section-label">Белые списки — выбери страну</p>
+  
   <div class="tabs" id="tabs-white">
-    <button class="tab" onclick="switchMode('w_baltics')">🇱🇹🇪🇪🇱🇻 Прибалтика</button>
-    <button class="tab" onclick="switchMode('w_finland')">🇫🇮 Финляндия</button>
+    <button class="tab active" onclick="switchMode('w_finland')">🇫🇮 Финляндия</button>
     <button class="tab" onclick="switchMode('w_germany')">🇩🇪 Германия</button>
     <button class="tab" onclick="switchMode('w_sweden')">🇸🇪 Швеция</button>
     <button class="tab" onclick="switchMode('w_netherlands')">🇳🇱 Нидерланды</button>
+    <button class="tab" onclick="switchMode('w_baltics')">🇱🇹🇪🇪🇱🇻 Прибалтика</button>
     <button class="tab" onclick="switchMode('w_poland')">🇵🇱 Польша</button>
     <button class="tab" onclick="switchMode('w_other')">🌍 Остальные</button>
     <button class="tab" onclick="switchMode('russia')">🇷🇺 Россия (Москва)</button>
   </div>
 
   <button class="collapsed-toggle" id="collapsed-toggle-white" onclick="toggleCollapsedWhite()">
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M2 4l4 4 4-4" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
-    <span id="collapsed-label-white">Нет ключей: ...</span>
+    <span id="collapsed-label-white">Загрузка...</span>
   </button>
   <div class="tabs-collapsed" id="tabs-collapsed-white"></div>
 
-  <button class="refresh-btn" onclick="loadData()" style="margin-top:20px">Обновить</button>
+  <button class="refresh-btn" onclick="loadData()" style="margin-top:25px">Обновить сейчас</button>
 
   <div id="cards"></div>
 
-  <script src="script.js?v=2"></script>
-</body>
+  <script>
+    // === Упрощённый скрипт без лишних режимов ===
+    let allKeys = [];
 
+    async function loadData() {
+      const updatedEl = document.getElementById('updated');
+      const cardsEl = document.getElementById('cards');
+      
+      updatedEl.textContent = 'Загрузка данных...';
+      cardsEl.innerHTML = '<p style="text-align:center; color:#888;">Проверяем серверы...</p>';
+
+      try {
+        const res = await fetch('keys.json?' + Date.now());
+        if (!res.ok) throw new Error('keys.json не найден');
+        
+        allKeys = await res.json();
+        
+        updatedEl.textContent = `Обновлено: ${new Date().toLocaleString('ru-RU')}`;
+        
+        // По умолчанию показываем Финляндию
+        switchMode('w_finland');
+        
+      } catch (err) {
+        console.error(err);
+        updatedEl.textContent = 'Ошибка загрузки данных';
+        cardsEl.innerHTML = `<p style="color:#f66; text-align:center;">Не удалось загрузить ключи.<br>Убедись, что файл <strong>keys.json</strong> существует в папке docs.</p>`;
+      }
+    }
+
+    function switchMode(mode) {
+      const cardsEl = document.getElementById('cards');
+      cardsEl.innerHTML = '';
+
+      let filtered = allKeys.filter(k => k.mode === mode);
+
+      if (filtered.length === 0) {
+        cardsEl.innerHTML = `<p style="text-align:center; color:#888;">Ключи для этого режима пока отсутствуют</p>`;
+        return;
+      }
+
+      // Показываем лучший ключ и топ-10
+      filtered.sort((a, b) => (a.ping || 999) - (b.ping || 999));
+
+      let html = `<div class="best-key">`;
+      html += `<h3>Лучший ключ — ${getCountryName(mode)}</h3>`;
+      html += `<pre>${filtered[0].link}</pre>`;
+      html += `<button onclick="copyToClipboard('${filtered[0].link.replace(/'/g, "\\'")}')">Копировать</button>`;
+      html += `</div>`;
+
+      html += `<h4 style="margin-top:30px">Топ-10 быстрых серверов:</h4>`;
+      html += `<div class="top-list">`;
+
+      filtered.slice(0, 10).forEach((item, i) => {
+        html += `
+          <div class="top-item">
+            <span>${i+1}. ${item.ip}</span>
+            <span class="ping">${item.ping || '?'} мс</span>
+            <button onclick="copyToClipboard('${item.link.replace(/'/g, "\\'")}')">копировать</button>
+          </div>`;
+      });
+
+      html += `</div>`;
+      cardsEl.innerHTML = html;
+    }
+
+    function getCountryName(mode) {
+      const names = {
+        'w_finland': '🇫🇮 Финляндия',
+        'w_germany': '🇩🇪 Германия',
+        'w_sweden': '🇸🇪 Швеция',
+        'w_netherlands': '🇳🇱 Нидерланды',
+        'w_baltics': '🇱🇹🇪🇪🇱🇻 Прибалтика',
+        'w_poland': '🇵🇱 Польша',
+        'w_other': '🌍 Остальные',
+        'russia': '🇷🇺 Россия (Москва)'
+      };
+      return names[mode] || mode;
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Ключ скопирован!');
+      });
+    }
+
+    // Автозагрузка при открытии страницы
+    window.onload = loadData;
+  </script>
+
+</body>
 </html>

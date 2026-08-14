@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-14 15:20 UTC",
+  "updated_at": "2026-08-14 16:21 UTC",
   "baltics": {
     "best": null,
     "top10": [],
@@ -31,24 +31,9 @@
     "total": 0
   },
   "poland": {
-    "best": "vless://YOUR-UUID@82.40.62.22:8443?type=tcp&security=tls&fp=edge#%F0%9F%87%B5%F0%9F%87%B1%20Poland%2C%20Warsaw%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
-    "top10": [
-      {
-        "key": "vless://YOUR-UUID@82.40.62.22:8443?type=tcp&security=tls&fp=edge#%F0%9F%87%B5%F0%9F%87%B1%20Poland%2C%20Warsaw%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
-        "host": "82.40.62.22",
-        "port": 8443,
-        "latency_ms": 105.9,
-        "first_seen": "2026-08-14T15:20:15Z"
-      },
-      {
-        "key": "vless://YOUR-UUID@82.40.62.22:8443?type=tcp&security=tls&fp=android#%F0%9F%87%B5%F0%9F%87%B1%20Poland%2C%20Warsaw%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
-        "host": "82.40.62.22",
-        "port": 8443,
-        "latency_ms": 110.8,
-        "first_seen": "2026-08-14T15:20:15Z"
-      }
-    ],
-    "total_working": 2,
+    "best": null,
+    "top10": [],
+    "total_working": 0,
     "total": 7
   },
   "other_countries": {
@@ -60,78 +45,71 @@
       "flag": "🇭🇰"
     },
     "Singapore": {
-      "best": "vless://fb957ee2-2ca0-43f3-ab86-724a9ca0b628@36.248.14.90:33102?security=tls&flow=xtls-rprx-vision&sni=sgg.knhqf.com&type=tcp&headerType=&host=sgg.knhqf.com&path=%2F&fp=firefox#%F0%9F%87%B8%F0%9F%87%AC%20Singapore%2C%20Singapore%20%7C%20%5BBL%5D",
+      "best": "vless://fb957ee2-2ca0-43f3-ab86-724a9ca0b628@36.248.14.90:33102?security=tls&flow=xtls-rprx-vision&sni=sgg.knhqf.com&type=tcp&headerType=&host=sgg.knhqf.com&path=%2F&fp=qq#%F0%9F%87%B8%F0%9F%87%AC%20Singapore%2C%20Singapore%20%7C%20%5BBL%5D",
       "top10": [
-        {
-          "key": "vless://fb957ee2-2ca0-43f3-ab86-724a9ca0b628@36.248.14.90:33102?security=tls&flow=xtls-rprx-vision&sni=sgg.knhqf.com&type=tcp&headerType=&host=sgg.knhqf.com&path=%2F&fp=firefox#%F0%9F%87%B8%F0%9F%87%AC%20Singapore%2C%20Singapore%20%7C%20%5BBL%5D",
-          "host": "36.248.14.90",
-          "port": 33102,
-          "latency_ms": 223.5,
-          "first_seen": "2026-08-14T15:20:25Z"
-        },
         {
           "key": "vless://fb957ee2-2ca0-43f3-ab86-724a9ca0b628@36.248.14.90:33102?security=tls&flow=xtls-rprx-vision&sni=sgg.knhqf.com&type=tcp&headerType=&host=sgg.knhqf.com&path=%2F&fp=qq#%F0%9F%87%B8%F0%9F%87%AC%20Singapore%2C%20Singapore%20%7C%20%5BBL%5D",
           "host": "36.248.14.90",
           "port": 33102,
-          "latency_ms": 1256.4,
-          "first_seen": "2026-08-14T15:20:25Z"
+          "latency_ms": 1311.3,
+          "first_seen": "2026-08-14T16:21:27Z"
         }
       ],
-      "total_working": 2,
+      "total_working": 1,
       "total": 7,
       "flag": "🇸🇬"
     },
     "United Kingdom": {
-      "best": "vless://c0f16ee2-a909-4890-ab1c-96489230658a@172.64.80.1:443?encryption=none&host=admin.jikebet.com&path=%2Fvless&security=tls&sni=admin.jikebet.com&type=ws&fp=ios#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
+      "best": "vless://c0f16ee2-a909-4890-ab1c-96489230658a@172.64.80.1:443?encryption=none&host=admin.jikebet.com&path=%2Fvless&security=tls&sni=admin.jikebet.com&type=ws&fp=firefox#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
       "top10": [
-        {
-          "key": "vless://c0f16ee2-a909-4890-ab1c-96489230658a@172.64.80.1:443?encryption=none&host=admin.jikebet.com&path=%2Fvless&security=tls&sni=admin.jikebet.com&type=ws&fp=ios#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
-          "host": "172.64.80.1",
-          "port": 443,
-          "latency_ms": 1.7,
-          "first_seen": "2026-08-14T15:20:30Z"
-        },
         {
           "key": "vless://c0f16ee2-a909-4890-ab1c-96489230658a@172.64.80.1:443?encryption=none&host=admin.jikebet.com&path=%2Fvless&security=tls&sni=admin.jikebet.com&type=ws&fp=firefox#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
           "host": "172.64.80.1",
           "port": 443,
-          "latency_ms": 1.8,
-          "first_seen": "2026-08-14T15:20:30Z"
-        },
-        {
-          "key": "vless://c0f16ee2-a909-4890-ab1c-96489230658a@172.64.80.1:443?encryption=none&host=admin.jikebet.com&path=%2Fvless&security=tls&sni=admin.jikebet.com&type=ws&fp=qq#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
-          "host": "172.64.80.1",
-          "port": 443,
-          "latency_ms": 2.0,
-          "first_seen": "2026-08-14T15:20:30Z"
+          "latency_ms": 1.3,
+          "first_seen": "2026-08-14T16:21:32Z"
         },
         {
           "key": "vless://c0f16ee2-a909-4890-ab1c-96489230658a@172.64.80.1:443?encryption=none&host=admin.jikebet.com&path=%2Fvless&security=tls&sni=admin.jikebet.com&type=ws&fp=android#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
           "host": "172.64.80.1",
           "port": 443,
+          "latency_ms": 2.0,
+          "first_seen": "2026-08-14T16:21:32Z"
+        },
+        {
+          "key": "vless://c0f16ee2-a909-4890-ab1c-96489230658a@172.64.80.1:443?encryption=none&host=admin.jikebet.com&path=%2Fvless&security=tls&sni=admin.jikebet.com&type=ws&fp=qq#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
+          "host": "172.64.80.1",
+          "port": 443,
           "latency_ms": 2.3,
-          "first_seen": "2026-08-14T15:20:30Z"
+          "first_seen": "2026-08-14T16:21:32Z"
         },
         {
           "key": "vless://c0f16ee2-a909-4890-ab1c-96489230658a@172.64.80.1:443?encryption=none&host=admin.jikebet.com&path=%2Fvless&security=tls&sni=admin.jikebet.com&type=ws&fp=edge#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
           "host": "172.64.80.1",
           "port": 443,
-          "latency_ms": 2.5,
-          "first_seen": "2026-08-14T15:20:30Z"
-        },
-        {
-          "key": "vless://c0f16ee2-a909-4890-ab1c-96489230658a@172.64.80.1:443?encryption=none&host=admin.jikebet.com&path=%2Fvless&security=tls&sni=admin.jikebet.com&type=ws&fp=safari#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
-          "host": "172.64.80.1",
-          "port": 443,
-          "latency_ms": 2.5,
-          "first_seen": "2026-08-14T15:20:30Z"
+          "latency_ms": 5.9,
+          "first_seen": "2026-08-14T16:21:32Z"
         },
         {
           "key": "vless://c0f16ee2-a909-4890-ab1c-96489230658a@172.64.80.1:443?encryption=none&host=admin.jikebet.com&path=%2Fvless&security=tls&sni=admin.jikebet.com&type=ws&fp=chrome#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
           "host": "172.64.80.1",
           "port": 443,
-          "latency_ms": 2.8,
-          "first_seen": "2026-08-14T15:20:30Z"
+          "latency_ms": 6.2,
+          "first_seen": "2026-08-14T16:21:32Z"
+        },
+        {
+          "key": "vless://c0f16ee2-a909-4890-ab1c-96489230658a@172.64.80.1:443?encryption=none&host=admin.jikebet.com&path=%2Fvless&security=tls&sni=admin.jikebet.com&type=ws&fp=safari#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
+          "host": "172.64.80.1",
+          "port": 443,
+          "latency_ms": 7.5,
+          "first_seen": "2026-08-14T16:21:32Z"
+        },
+        {
+          "key": "vless://c0f16ee2-a909-4890-ab1c-96489230658a@172.64.80.1:443?encryption=none&host=admin.jikebet.com&path=%2Fvless&security=tls&sni=admin.jikebet.com&type=ws&fp=ios#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%20%7C%20%F0%9F%8C%90%20%7C%20%5BBL%5D",
+          "host": "172.64.80.1",
+          "port": 443,
+          "latency_ms": 7.6,
+          "first_seen": "2026-08-14T16:21:32Z"
         }
       ],
       "total_working": 7,
@@ -139,63 +117,63 @@
       "flag": "🇬🇧"
     },
     "Other": {
-      "best": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=safari#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
+      "best": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=edge#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
       "top10": [
         {
-          "key": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=safari#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
-          "host": "199.232.78.150",
-          "port": 80,
-          "latency_ms": 1.3,
-          "first_seen": "2026-08-14T15:20:30Z"
-        },
-        {
-          "key": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=android#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
+          "key": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=edge#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
           "host": "199.232.78.150",
           "port": 80,
           "latency_ms": 1.5,
-          "first_seen": "2026-08-14T15:20:30Z"
+          "first_seen": "2026-08-14T16:21:32Z"
         },
         {
-          "key": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=ios#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
+          "key": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=qq#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
           "host": "199.232.78.150",
           "port": 80,
           "latency_ms": 1.6,
-          "first_seen": "2026-08-14T15:20:30Z"
+          "first_seen": "2026-08-14T16:21:32Z"
         },
         {
           "key": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=chrome#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
           "host": "199.232.78.150",
           "port": 80,
           "latency_ms": 1.6,
-          "first_seen": "2026-08-14T15:20:30Z"
+          "first_seen": "2026-08-14T16:21:32Z"
+        },
+        {
+          "key": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=safari#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
+          "host": "199.232.78.150",
+          "port": 80,
+          "latency_ms": 1.8,
+          "first_seen": "2026-08-14T16:21:32Z"
         },
         {
           "key": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=firefox#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
           "host": "199.232.78.150",
           "port": 80,
-          "latency_ms": 1.8,
-          "first_seen": "2026-08-14T15:20:30Z"
+          "latency_ms": 1.9,
+          "first_seen": "2026-08-14T16:21:32Z"
         },
         {
-          "key": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=qq#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
+          "key": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=ios#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
           "host": "199.232.78.150",
           "port": 80,
           "latency_ms": 2.0,
-          "first_seen": "2026-08-14T15:20:30Z"
+          "first_seen": "2026-08-14T16:21:32Z"
+        },
+        {
+          "key": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=android#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
+          "host": "199.232.78.150",
+          "port": 80,
+          "latency_ms": 2.2,
+          "first_seen": "2026-08-14T16:21:32Z"
         },
         {
           "key": "vless://38135fde-7044-4407-8faf-e1ab08e47402@172.64.80.1:8880?encryption=none&security=none&alpn=http/1.1&type=ws&host=white-bush-712e.498-f8f.workers.dev&path=/pyip=ProxyIP.KR.CMLiussss.net#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A8%F0%9F%87%A6%20%F0%9F%87%AD%F0%9F%87%B0%20%7C%20%5BBL%5D",
           "host": "172.64.80.1",
           "port": 8880,
-          "latency_ms": 2.0,
-          "first_seen": "2026-08-14T15:20:30Z"
-        },
-        {
-          "key": "vless://16569657-116c-46ed-8920-758ab8abaac4@199.232.78.150:80?type=ws&sni=Vpsdelta2.com&path=%2F&host=Vpsdelta2.com&fp=edge#%F0%9F%8C%90%20Anycast-IP%20%7C%20%F0%9F%87%A9%F0%9F%87%AA%20%F0%9F%87%B8%F0%9F%87%AC%20%7C%20%5BBL%5D",
-          "host": "199.232.78.150",
-          "port": 80,
-          "latency_ms": 2.0,
-          "first_seen": "2026-08-14T15:20:30Z"
+          "latency_ms": 2.6,
+          "first_seen": "2026-08-14T16:21:32Z"
         }
       ],
       "total_working": 8,
@@ -228,39 +206,25 @@
         "key": "vless://8491e506-02d9-4ad7-8fce-73aae002cdf3@84.201.135.86:443?type=tcp&headerType=none&security=reality&encryption=none&sni=eh3.vk.ru&pbk=CMkW1axrhEXoiJ6anMz9XEjlfqlAtEZya7L0b5ZPMyw&sid=2f3e735aedc55aaf&flow=xtls-rprx-vision&fp=edge#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20%7C%20%F0%9F%8C%90%20%7C%20%5B%2ACIDR%5D%20YA",
         "host": "84.201.135.86",
         "port": 443,
-        "latency_ms": 128.0,
+        "latency_ms": 1136.3,
         "first_seen": "2026-08-14T14:15:08Z"
       },
       {
         "key": "vless://8491e506-02d9-4ad7-8fce-73aae002cdf3@84.201.135.86:443?type=tcp&headerType=none&security=reality&encryption=none&sni=eh3.vk.ru&pbk=CMkW1axrhEXoiJ6anMz9XEjlfqlAtEZya7L0b5ZPMyw&sid=2f3e735aedc55aaf&flow=xtls-rprx-vision&fp=firefox#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20%7C%20%F0%9F%8C%90%20%7C%20%5B%2ACIDR%5D%20YA",
         "host": "84.201.135.86",
         "port": 443,
-        "latency_ms": 211.2,
-        "first_seen": "2026-08-14T14:15:08Z"
-      },
-      {
-        "key": "vless://8491e506-02d9-4ad7-8fce-73aae002cdf3@84.201.135.86:443?type=tcp&headerType=none&security=reality&encryption=none&sni=eh3.vk.ru&pbk=CMkW1axrhEXoiJ6anMz9XEjlfqlAtEZya7L0b5ZPMyw&sid=2f3e735aedc55aaf&flow=xtls-rprx-vision&fp=safari#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20%7C%20%F0%9F%8C%90%20%7C%20%5B%2ACIDR%5D%20YA",
-        "host": "84.201.135.86",
-        "port": 443,
-        "latency_ms": 215.6,
-        "first_seen": "2026-08-14T14:15:08Z"
-      },
-      {
-        "key": "vless://8491e506-02d9-4ad7-8fce-73aae002cdf3@84.201.135.86:443?type=tcp&headerType=none&security=reality&encryption=none&sni=eh3.vk.ru&pbk=CMkW1axrhEXoiJ6anMz9XEjlfqlAtEZya7L0b5ZPMyw&sid=2f3e735aedc55aaf&flow=xtls-rprx-vision&fp=qq#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20%7C%20%F0%9F%8C%90%20%7C%20%5B%2ACIDR%5D%20YA",
-        "host": "84.201.135.86",
-        "port": 443,
-        "latency_ms": 218.9,
+        "latency_ms": 1138.3,
         "first_seen": "2026-08-14T14:15:08Z"
       },
       {
         "key": "vless://8491e506-02d9-4ad7-8fce-73aae002cdf3@84.201.135.86:443?type=tcp&headerType=none&security=reality&encryption=none&sni=eh3.vk.ru&pbk=CMkW1axrhEXoiJ6anMz9XEjlfqlAtEZya7L0b5ZPMyw&sid=2f3e735aedc55aaf&flow=xtls-rprx-vision&fp=ios#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20%7C%20%F0%9F%8C%90%20%7C%20%5B%2ACIDR%5D%20YA",
         "host": "84.201.135.86",
         "port": 443,
-        "latency_ms": 238.0,
+        "latency_ms": 1140.5,
         "first_seen": "2026-08-14T14:15:08Z"
       }
     ],
-    "total_working": 5,
+    "total_working": 3,
     "total": 5
   },
   "w_netherlands": {
